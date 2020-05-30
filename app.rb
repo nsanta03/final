@@ -15,5 +15,15 @@ before { puts; puts "--------------- NEW REQUEST ---------------"; puts }       
 after { puts; }                                                                       #
 #######################################################################################
 
-# events_table = DB.from(:events)
+places_table = DB.from(:places)
 # rsvps_table = DB.from(:rsvps)
+
+# before do 
+#     @current_user = users_table.where(:id => session[:user]).to_a[0]
+# end
+
+#Home Page (Nick's Local Boston Favorite Places)
+get "/" do 
+    @places = places_table.all
+    view "places"
+end 

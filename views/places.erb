@@ -1,0 +1,7 @@
+<h1>Nicks Local Boston Favorites!</h1>
+
+<h2>See Boston like a local</h2>
+
+<% for place in @places %>
+    <p><a href="/places/<%= place[:id] %>"><% place[:name] %></a></p>
+<% end %>
