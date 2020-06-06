@@ -16,14 +16,25 @@ after { puts; }                                                                 
 #######################################################################################
 
 places_table = DB.from(:places)
+users_table = DB.from(:users)
+reviewers_table = DB.from(:reviewers)
 # rsvps_table = DB.from(:rsvps)
 
-# before do 
-#     @current_user = users_table.where(:id => session[:user]).to_a[0]
-# end
+#before do 
+#    @current_user = users_table.where(:id => session[:user]).to_a[0]
+#end
 
 #Home Page (Nick's Local Boston Favorite Places)
 get "/" do 
     @places = places_table.all
     view "places"
 end 
+
+#Place Page
+get "/places/:id" do
+    @place = places_table.where(:id => params["id"]).to_a[0]
+    @users_table = users_table
+    @reviewers = reviewers_table.where(:place_id => params["id"]).to_a
+    @count = reviewers_table.where(:place_id => params["id"], :recommend => true).count
+    view "place"
+end
