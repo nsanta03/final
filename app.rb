@@ -17,7 +17,7 @@ after { puts; }                                                                 
 
 places_table = DB.from(:places)
 users_table = DB.from(:users)
-reviewers_table = DB.from(:reviewers)
+reviews_table = DB.from(:reviews)
 # rsvps_table = DB.from(:rsvps)
 
 #before do 
@@ -34,7 +34,7 @@ end
 get "/places/:id" do
     @place = places_table.where(:id => params["id"]).to_a[0]
     @users_table = users_table
-    @reviewers = reviewers_table.where(:place_id => params["id"]).to_a
-    @count = reviewers_table.where(:place_id => params["id"], :recommend => true).count
+    @reviews = reviews_table.where(:place_id => params["id"]).to_a
+    @count = reviews_table.where(:place_id => params["id"], :recommend => true).count
     view "place"
 end

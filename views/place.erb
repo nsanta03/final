@@ -1,4 +1,25 @@
-<h1><%= @place[:title] %></h1>
-    <h3><p><%= @place[:location] %></p></h3>
-    <h4><p><%= @place[:description] %></p></h4>
-
+<div class="row">
+    <div class="col-sm-9">
+    <h1><%= @place[:title] %></h1>
+        <h3><p><%= @place[:location] %></p></h3>
+        <h5><p><%= @place[:description] %></p></h5>
+    <% for review in @reviews %>
+        <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
+        <div class="media">
+            <% if review[:recommend] %>
+                <i class="fas fa-thumbs-up fa-3x mr-3"></i>
+            <% else %>
+                <i class="fas fa-thumbs-down fa-3x mr-3"></i>
+            <% end %>
+            <div class="media-body">
+                <h5 class="mt-0"><%= user[:name] %></h5>
+                <%= review[:comments] %>
+            </div>
+        </div>
+    <% end %>
+    <p><a href="/places/<%= @place[:id] %>/reviews/new" class="btn btn-primary">Write a Review!</a></p>
+</div>
+<div class="col-sm-3">
+    <h3>How many visitors recommend this place?</h3>
+    <p><%= @count %></p>
+</div>

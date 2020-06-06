@@ -11,7 +11,7 @@ DB.create_table! :places do
   String :description, text: true
   String :location
 end
-DB.create_table! :reviewers do
+DB.create_table! :reviews do
   primary_key :id
   foreign_key :place_id
   foreign_key :user_id
