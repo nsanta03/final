@@ -3,6 +3,15 @@
     <h1><%= @place[:title] %></h1>
         <h3><p><%= @place[:location] %></p></h3>
         <h5><p><%= @place[:description] %></p></h5>
+        <p>
+            <iframe
+                width="600"
+                height="450"
+                frameborder="0" 
+                style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCtovsQvkIUWlNqtYwXY87gEd4ZSmJEhMw&q=<%= @lat_long %>&zoom=6" allowfullscreen>
+            </iframe>
+        </p>
     <% for review in @reviews %>
         <% user = @users_table.where(:id => review[:user_id]).to_a[0] %>
         <div class="media">

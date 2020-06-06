@@ -18,6 +18,10 @@ after { puts; }                                                                 
 places_table = DB.from(:places)
 users_table = DB.from(:users)
 reviews_table = DB.from(:reviews)
+#results = Geocoder.search("4 Jersey Street, Boston, MA 02215")
+results = Geocoder.search("300 Hanover Street, Boston, MA 02113")
+#results = Geocoder.search(:places_table.location)
+#results = Geocoder.search()
 
 before do 
     @current_user = users_table.where(:id => session[:user]).to_a[0]
@@ -33,6 +37,7 @@ end
 get "/places/:id" do
     @place = places_table.where(:id => params["id"]).to_a[0]
     @users_table = users_table
+    @lat_long = results.first.coordinates.join(",")
     @reviews = reviews_table.where(:place_id => params["id"]).to_a
     @count = reviews_table.where(:place_id => params["id"], :recommend => true).count
     view "place"
