@@ -3,5 +3,5 @@
 <h2>See Boston like a local</h2>
 
 <% for place in @places %>
-    <p><a href="/places/<%= place[:id] %>"><% place[:name] %></a></p>
+    <p><a href="/places/<%= place[:id] %>"><%= place[:title] %></a></p>
 <% end %>
