@@ -53,3 +53,44 @@ post "/places/:id/reviews/create" do
     @event = events_table.where(:id => params["id"]).to_a[0]
     view "create_review"
 end 
+
+#Create User Form
+get "/users/new" do
+    view "new_user"
+end
+
+#New User Confirmation
+post "/users/create" do
+    users_table.insert(:name => params["name"],
+        :hometown => params["hometown"],
+        :email => params["email"],
+        :password => BCrypt::Password.create(params["password"]))
+end
+
+#Login Submission
+get "/logins/new" do
+    view "new_login"
+end
+
+#Login Confirmation
+post "/logins/create" do
+    email_entered = params["email"]
+    password_entered = params["password"]
+    user = users_table.where(:email => email_entered).to_a[0]
+    if user
+        if BCrypt::Password.new(user[:password]) == password_entered
+            session[:user_id] = user[:id]
+            view "create_login"
+        else
+            view "create_login_failed"
+        end
+    else 
+        view "create_login_failed"
+    end
+end
+
+#Logout Confirmation
+get "/logout" do
+    session[:user_id] = nil
+    view "logout"
+end
