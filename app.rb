@@ -20,7 +20,8 @@ users_table = DB.from(:users)
 reviews_table = DB.from(:reviews)
 
 before do 
-    @current_user = users_table.where(:id => session[:user]).to_a[0]
+    @current_user = users_table.where(:id => session[:user_id]).to_a[0]
+    puts @current_user.inspect
 end
 
 #Home Page (Nick's Local Boston Favorite Places)
@@ -48,11 +49,11 @@ end
 
 #Confirm review submitted
 post "/places/:id/reviews/create" do
-    reviews_table.insert(:event_id => params["id"],
+    reviews_table.insert(:place_id => params["id"],
                        :recommend => params["recommend"],
                        :user_id => @current_user[:id],
                        :comments => params["comments"])
-    @event = events_table.where(:id => params["id"]).to_a[0]
+    @place = places_table.where(:id => params["id"]).to_a[0]
     view "create_review"
 end 
 
@@ -63,10 +64,12 @@ end
 
 #New User Confirmation
 post "/users/create" do
+    puts params.inspect
     users_table.insert(:name => params["name"],
         :hometown => params["hometown"],
         :email => params["email"],
         :password => BCrypt::Password.create(params["password"]))
+    view "create_user"
 end
 
 #Login Submission
